@@ -90,8 +90,21 @@ d3.csv("assets/data/data.csv").then(function (data, err) {
     var labelsGroup = chartGroup.append("g")
     .attr("transform", `translate(${width / 2}, ${height + 20})`);
 
-  
+  // append x axis label
+  chartGroup.append("text")
+    .attr("x", 250)
+    .attr("y", 450)
+    .classed("aText", true)
+    .text("Poverty (%)");
 
+  // append y axis label
+  chartGroup.append("text")
+    .attr("transform", "rotate(-90)")
+    .attr("y", -70)
+    .attr("x", -200)
+    .attr("dy", "1em")
+    .classed("aText", true)
+    .text("People Who Lack Healthcare (%)");
 //   };
 
 });
