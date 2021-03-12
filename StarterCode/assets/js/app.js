@@ -24,3 +24,20 @@ var svg = d3
 
 var chartGroup = svg.append("g")
   .attr("transform", `translate(${margin.left}, ${margin.top})`);
+
+// GET DATA
+
+d3.csv("assets/data/data.csv").then(function (data, err) {
+    if (err) throw err;
+    console.log(data)
+
+  // PARSE DATA
+    data.forEach(function (data) {
+    data.poverty = +data.poverty;
+    data.healthcare = +data.healthcare;
+    data.obesity = +data.obesity;
+  });
+
+//   };
+
+});
