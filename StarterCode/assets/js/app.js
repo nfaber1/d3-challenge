@@ -27,16 +27,71 @@ var chartGroup = svg.append("g")
 
 // INITIAL PARAMS 
 
-function xScale(data, chosenXAxis) {
-    
-    var xLinearScale = d3.scaleLinear()
-        .domain([d3.min(data, d => d[chosenXAxis]) * 0.75,
-            d3.max(data, d => d[chosenXAxis]) * 1.25
-        ])
-        // .range([0. width]);
+var chosenXAxis = "poverty"
 
-    return xLinearScale;
-};
+// function xScale(data, chosenXAxis) {
+    
+//     var xLinearScale = d3.scaleLinear()
+//         .domain([d3.min(data, d => d[chosenXAxis]) * 0.75,
+//             d3.max(data, d => d[chosenXAxis]) * 1.25
+//         ])
+//         // .range([0. width]);
+
+//     return xLinearScale;
+// };
+
+// function renderAxes(newXScale, xAxis) {
+//     var bottomAxis = d3.axisBottom(newXScale);
+  
+//     xAxis.transition()
+//       .duration(1000)
+//       .call(bottomAxis);
+  
+//     return xAxis;
+//   }
+  
+//   // function used for updating circles group with a transition to
+//   // new circles
+//   function renderCircles(circlesGroup, newXScale, chosenXAxis) {
+  
+//     circlesGroup.transition()
+//       .duration(1000)
+//       .attr("cx", d => newXScale(d[chosenXAxis]));
+  
+//     return circlesGroup;
+//   }
+  
+//   // function used for updating circles group with new tooltip
+//   function updateToolTip(chosenXAxis, circlesGroup) {
+  
+//     var label;
+  
+//     if (chosenXAxis === "poverty") {
+//       label = "Poverty (%):";
+//     }
+//     else {
+//       label = "Obesity (%):";
+//     }
+  
+//     var toolTip = d3.tip()
+//       .attr("class", "tooltip")
+//       .offset([80, -60])
+//       .html(function(d) {
+//         return (`${d.state}<br>${label} ${d[chosenXAxis]}`);
+//       });
+  
+//     circlesGroup.call(toolTip);
+  
+//     circlesGroup.on("mouseover", function(data) {
+//       toolTip.show(data);
+//     })
+//       // onmouseout event
+//       .on("mouseout", function(data, index) {
+//         toolTip.hide(data);
+//       });
+  
+//     return circlesGroup;
+//   }
 
 // GET DATA
 
@@ -94,17 +149,68 @@ d3.csv("assets/data/data.csv").then(function (data, err) {
   chartGroup.append("text")
     .attr("x", 250)
     .attr("y", 450)
+    .attr("value", "poverty") // value to grab for event listener
     .classed("aText", true)
     .text("Poverty (%)");
 
   // append y axis label
   chartGroup.append("text")
     .attr("transform", "rotate(-90)")
-    .attr("y", -70)
-    .attr("x", -200)
+    .attr("y", -50)
+    .attr("x", -300)
+    .attr("value", "obesity") // value to grab for event listener
     .attr("dy", "1em")
     .classed("aText", true)
     .text("People Who Lack Healthcare (%)");
+
+    // var circlesGroup = updateToolTip(chosenXAxis, circlesGroup);
+
+//     labelsGroup.selectAll("text")
+//     .on("click", function() {
+//       // get value of selection
+//       var value = d3.select(this).attr("value");
+//       if (value !== chosenXAxis) {
+
+//         // replaces chosenXAxis with value
+//         chosenXAxis = value;
+
+//         // console.log(chosenXAxis)
+
+//         // functions here found above csv import
+//         // updates x scale for new data
+//         xLinearScale = xScale(data, chosenXAxis);
+
+//         // updates x axis with transition
+//         xAxis = renderAxes(xLinearScale, xAxis);
+
+//         // updates circles with new x values
+//         circlesGroup = renderCircles(circlesGroup, xLinearScale, chosenXAxis);
+
+//         // updates tooltips with new info
+//         circlesGroup = updateToolTip(chosenXAxis, circlesGroup);
+
+//         // changes classes to change bold text
+//         if (chosenXAxis === "poverty") {
+//           povertyLabel
+//             .classed("active", true)
+//             .classed("inactive", false);
+//           obesityLabel
+//             .classed("active", false)
+//             .classed("inactive", true);
+//         }
+//         else {
+//           povertyLabel
+//             .classed("active", false)
+//             .classed("inactive", true);
+//             obesityLabel
+//             .classed("active", true)
+//             .classed("inactive", false);
+//         }
+//       }
+//     });
+// }).catch(function(error) {
+//   console.log(error);
+
 //   };
 
 });
